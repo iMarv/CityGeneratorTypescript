@@ -15,7 +15,9 @@ export class Square {
     }
 
     set type(value: SquareTypes) {
-        if (this._streetConnections() <= 1) {
+        if (value === SquareTypes.STREET && this._streetConnections() <= 1) {
+            this._type = value;
+        } else if (value === SquareTypes.PARK) {
             this._type = value;
         }
     }
@@ -35,14 +37,18 @@ export class Square {
         this._parent = parent;
     }
 
-    populate(): void {
-        if (this.type === SquareTypes.STREET) {
+    populate(misc: boolean = false): void {
+        if (!misc && this.type === SquareTypes.STREET) {
             const intersectionChance: number = this._randomNumber(
-                config.square.chance.intersection
+                config.square.chance.intersection *
+                    (config.square.densityBase.intersection +
+                        this._parent.getDensity(this))
             );
 
             const singleChance: number = this._randomNumber(
-                config.square.chance.single
+                config.square.chance.single *
+                    (config.square.densityBase.single +
+                        this._parent.getDensity(this))
             );
 
             if (
@@ -53,6 +59,21 @@ export class Square {
                 this._populateStreet();
             } else if (intersectionChance === RANDOM_TARGET) {
                 this._populateStreet();
+            }
+        } else if (misc && this.type == SquareTypes.EMPTY) {
+            const surroundingsEmpty: number = this._parent
+                .getSurroundingSquares(this, 1)
+                .filter(s => (s ? !(s.x === this.x && s.y === this.y) : true))
+                .filter(
+                    s =>
+                        s
+                            ? s.type === SquareTypes.EMPTY ||
+                              s.type === SquareTypes.PARK
+                            : true
+                ).length;
+
+            if (surroundingsEmpty === 8) {
+                this.type = SquareTypes.PARK;
             }
         }
     }
@@ -82,4 +103,5 @@ export class Square {
 export enum SquareTypes {
     EMPTY = ' ',
     STREET = '#',
+    PARK = '.',
 }

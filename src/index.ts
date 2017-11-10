@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { City } from './City';
+import { config } from './config';
 
 class Game {
     private city: City;
@@ -8,12 +9,24 @@ class Game {
         this.city = new City();
     }
 
-    run(): void {
-        Observable.timer(0, 100).subscribe(() => {
-            this.city.tick();
-            this._clearConsole();
-            this.city.print();
+    live(): void {
+        Observable.timer(0, 1).subscribe(() => {
+            if (!this.city.done) {
+                this.city.tick();
+                this._clearConsole();
+                this.city.print();
+                console.log('Street count: ' + this.city.streetCount);
+                console.log('Streets done: ' + this.city.maxStreetsReached);
+            }
         });
+    }
+
+    instant(): void {
+        while (!this.city.done) {
+            this.city.tick();
+            console.log('Street count: ' + this.city.streetCount);
+        }
+        this.city.print();
     }
 
     private _clearConsole(): void {
@@ -22,4 +35,9 @@ class Game {
 }
 
 const game: Game = new Game();
-game.run();
+
+if (config.general.buildLive) {
+    game.live();
+} else {
+    game.instant();
+}

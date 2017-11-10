@@ -6,10 +6,23 @@ export class City {
 
     private _height: number;
     private _width: number;
+    private _miscAdded: boolean = false;
+
+    get done(): boolean {
+        return this._miscAdded;
+    }
 
     get streetCount(): number {
         return this.squares.filter(s => s.type === SquareTypes.STREET).length;
     }
+
+    get maxStreetsReached(): boolean {
+        return !(
+            this.streetCount <
+            this._height * this._width * config.city.streetCoverage
+        );
+    }
+
     constructor(
         width: number = config.city.width,
         height: number = config.city.height
@@ -24,20 +37,23 @@ export class City {
         }
 
         this.findSquare(
-            Math.floor(this._width / 2),
-            Math.floor(this._height / 2)
+            Math.floor(Math.random() * this._width),
+            Math.floor(Math.random() * this._height)
         ).type =
             SquareTypes.STREET;
     }
 
     public tick(): void {
-        if (
-            this.streetCount <
-            this._height * this._width * config.city.streetCoverage
-        ) {
+        if (!this.maxStreetsReached) {
             for (const square of this.squares) {
                 square.populate();
             }
+        } else if (!this._miscAdded) {
+            for (const square of this.squares) {
+                square.populate(true);
+            }
+
+            this._miscAdded = true;
         }
     }
 
@@ -57,8 +73,30 @@ export class City {
         )[0];
     }
 
-    private _findColumn(y: number): Square[] {
-        return this.squares.filter(square => square.y === y);
+    public getDensity(
+        square: Square,
+        radius: number = config.city.densityRadius
+    ): number {
+        const surroundingSquares: Square[] = this.getSurroundingSquares(
+            square,
+            radius
+        );
+
+        const streetCount: number = surroundingSquares.filter(
+            s => (s ? s.type === SquareTypes.STREET : false)
+        ).length;
+
+        return streetCount / surroundingSquares.length;
+    }
+
+    public getSurroundingSquares(square: Square, radius: number) {
+        const surroundingSquares: Square[] = [];
+        for (let x = square.x - radius; x <= square.x + radius; x++) {
+            for (let y = square.y - radius; y <= square.y + radius; y++) {
+                surroundingSquares.push(this.findSquare(x, y));
+            }
+        }
+        return surroundingSquares;
     }
 
     private _findRow(x: number): Square[] {
