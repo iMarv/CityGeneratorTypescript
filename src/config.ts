@@ -1,17 +1,17 @@
 export const config = {
     city: {
-        width: 15,
-        height: 15,
+        width: 20,
+        height: 20,
         streetCoverage: 1 / 3,
         densityRadius: 5,
     },
     square: {
         chance: {
             single: 10,
-            intersection: 100,
+            intersection: 75,
         },
         densityBase: {
-            single: 0.5,
+            single: 0.75,
             intersection: 1,
         },
     },
