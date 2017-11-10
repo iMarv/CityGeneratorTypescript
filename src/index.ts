@@ -5,7 +5,7 @@ class Game {
     private city: City;
 
     constructor() {
-        this.city = new City(15, 15);
+        this.city = new City();
     }
 
     run(): void {

@@ -1,7 +1,5 @@
+import { config } from './config';
 import { Square, SquareTypes } from './Square';
-
-const DEFAULT_WIDTH: number = 11;
-const DEFAULT_HEIGHT: number = 11;
 
 export class City {
     public squares: Square[] = [];
@@ -13,8 +11,8 @@ export class City {
         return this.squares.filter(s => s.type === SquareTypes.STREET).length;
     }
     constructor(
-        width: number = DEFAULT_WIDTH,
-        height: number = DEFAULT_HEIGHT
+        width: number = config.city.width,
+        height: number = config.city.height
     ) {
         this._height = height;
         this._width = width;
@@ -33,7 +31,10 @@ export class City {
     }
 
     public tick(): void {
-        if (this.streetCount < this._height * this._width * (3 / 5)) {
+        if (
+            this.streetCount <
+            this._height * this._width * config.city.streetCoverage
+        ) {
             for (const square of this.squares) {
                 square.populate();
             }

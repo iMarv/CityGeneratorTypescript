@@ -1,7 +1,6 @@
+import { config } from './config';
 import { City } from './City';
 
-const SINGLE_STREET_POPULATION_CHANCE = 10;
-const INTERSECTION_POPULATION_CHANCE = 50;
 const RANDOM_TARGET = 1;
 
 export class Square {
@@ -38,12 +37,12 @@ export class Square {
 
     populate(): void {
         if (this.type === SquareTypes.STREET) {
-            const intersectionChance: number = Math.floor(
-                Math.random() * INTERSECTION_POPULATION_CHANCE
+            const intersectionChance: number = this._randomNumber(
+                config.square.chance.intersection
             );
 
-            const singleChance: number = Math.floor(
-                Math.random() * SINGLE_STREET_POPULATION_CHANCE
+            const singleChance: number = this._randomNumber(
+                config.square.chance.single
             );
 
             if (
@@ -59,7 +58,7 @@ export class Square {
     }
 
     private _populateStreet() {
-        const selectedSquare: number = Math.floor(Math.random() * 4);
+        const selectedSquare: number = this._randomNumber(4);
         if (this.closeBy[selectedSquare]) {
             this.closeBy[selectedSquare].type = SquareTypes.STREET;
         }
@@ -73,6 +72,10 @@ export class Square {
         return this.closeBy.filter(
             square => (square ? square.type === SquareTypes.STREET : false)
         ).length;
+    }
+
+    private _randomNumber(max: number) {
+        return Math.floor(Math.random() * max);
     }
 }
 
