@@ -1,0 +1,14 @@
+{
+  "name": "Fun",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^21.2.1",
+    "prettier": "^1.8.2",
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "rxjs": "^5.5.2"
+  }
+}
