@@ -5,11 +5,12 @@ class Game {
     private city: City;
 
     constructor() {
-        this.city = new City();
+        this.city = new City(15, 15);
     }
 
     run(): void {
-        Observable.timer(0, 500).subscribe(() => {
+        Observable.timer(0, 100).subscribe(() => {
+            this.city.tick();
             this._clearConsole();
             this.city.print();
         });
