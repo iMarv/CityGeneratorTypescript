@@ -3,9 +3,9 @@ import { Square, SquareTypes } from './Square';
 
 export class City {
     public squares: Square[] = [];
+    public height: number;
+    public width: number;
 
-    private _height: number;
-    private _width: number;
     private _miscAdded: boolean = false;
 
     get done(): boolean {
@@ -19,7 +19,7 @@ export class City {
     get maxStreetsReached(): boolean {
         return !(
             this.streetCount <
-            this._height * this._width * config.city.streetCoverage
+            this.height * this.width * config.city.streetCoverage
         );
     }
 
@@ -27,8 +27,8 @@ export class City {
         width: number = config.city.width,
         height: number = config.city.height
     ) {
-        this._height = height;
-        this._width = width;
+        this.height = height;
+        this.width = width;
 
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
@@ -37,8 +37,8 @@ export class City {
         }
 
         this.findSquare(
-            Math.floor(Math.random() * this._width),
-            Math.floor(Math.random() * this._height)
+            Math.floor(Math.random() * this.width),
+            Math.floor(Math.random() * this.height)
         ).type =
             SquareTypes.STREET;
     }
@@ -58,7 +58,7 @@ export class City {
     }
 
     public print(): void {
-        for (let x = 0; x < this._width; x++) {
+        for (let x = 0; x < this.width; x++) {
             console.log(
                 this._findRow(x)
                     .map(square => square.toString())

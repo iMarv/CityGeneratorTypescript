@@ -1,14 +1,17 @@
 {
-  "name": "Fun",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "jest": "^21.2.1",
-    "prettier": "^1.8.2",
-    "typescript": "^2.6.1"
-  },
-  "scripts": {
-    "start": "tsc --pretty --watch"
-  }
+    "name": "Fun",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/jest": "^21.1.6",
+        "jest": "^21.2.1",
+        "prettier": "^1.8.2",
+        "typescript": "^2.6.1"
+    },
+    "scripts": {
+        "watch": "tsc --pretty --watch",
+        "test": "jest --color --coverage",
+        "test:watch": "jest --color --coverage --watch"
+    }
 }
