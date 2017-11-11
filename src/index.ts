@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs/Rx';
 import { City } from './City';
 import { config } from './config';
 
@@ -10,7 +9,7 @@ class Game {
     }
 
     live(): void {
-        Observable.timer(0, 1).subscribe(() => {
+        setInterval(() => {
             if (!this.city.done) {
                 this.city.tick();
                 this._clearConsole();
@@ -18,7 +17,7 @@ class Game {
                 console.log('Street count: ' + this.city.streetCount);
                 console.log('Streets done: ' + this.city.maxStreetsReached);
             }
-        });
+        }, 10);
     }
 
     instant(): void {
