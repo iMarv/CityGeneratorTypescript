@@ -1,5 +1,5 @@
 {
-    "name": "Fun",
+    "name": "city-generator",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
@@ -10,8 +10,10 @@
         "typescript": "^2.6.1"
     },
     "scripts": {
+        "run": "node dist/index.js",
+        "build": "tsc --pretty",
         "watch": "tsc --pretty --watch",
         "test": "jest --color --coverage",
-        "test:watch": "jest --color --coverage --watch"
+        "test:watch": "jest --color --coverage --watchAll"
     }
 }
