@@ -17,7 +17,7 @@ class Game {
                 console.log('Street count: ' + this.city.streetCount);
                 console.log('Streets done: ' + this.city.maxStreetsReached);
             }
-        }, 50);
+        }, 10);
     }
 
     instant(): void {

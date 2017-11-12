@@ -11,6 +11,7 @@ export class Square {
 
     private _isStreet: boolean = false;
     private _parent: City;
+    private _clusterBlock: boolean = false;
 
     get isStreet(): boolean {
         return this._isStreet;
@@ -60,6 +61,21 @@ export class Square {
             } else if (intersectionChance === RANDOM_TARGET) {
                 this._populateStreet();
             }
+        } else if (
+            !this._clusterBlock &&
+            !this.isStreet &&
+            this._streetConnections() >= 2
+        ) {
+            const diagonalStreets: Square[] = this._parent
+                .getSurroundingSquares(this, 1)
+                .filter(s => !(this.closeBy.indexOf(s) > -1))
+                .filter(s => s.isStreet);
+
+            if (diagonalStreets.length === 0) {
+                this._isStreet = true;
+            } else {
+                this._clusterBlock = true;
+            }
         }
     }
 
@@ -84,7 +100,7 @@ export class Square {
                 }
             }
 
-            return mappedStreets[status - 1];
+            return mappedStreets[status];
         } else {
             const surroundingsEmpty: number = this._parent
                 .getSurroundingSquares(this, 1)
@@ -110,6 +126,5 @@ export class Square {
 
 export enum SquareTypes {
     EMPTY = ' ',
-    STREET = '#',
     PARK = '.',
 }
