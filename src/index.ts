@@ -10,20 +10,19 @@ class Game {
 
     live(): void {
         setInterval(() => {
-            if (!this.city.done) {
+            if (!this.city.maxStreetsReached) {
                 this.city.tick();
                 this._clearConsole();
                 this.city.print();
                 console.log('Street count: ' + this.city.streetCount);
                 console.log('Streets done: ' + this.city.maxStreetsReached);
             }
-        }, 10);
+        }, 50);
     }
 
     instant(): void {
-        while (!this.city.done) {
+        while (!this.city.maxStreetsReached) {
             this.city.tick();
-            console.log('Street count: ' + this.city.streetCount);
         }
         this.city.print();
     }

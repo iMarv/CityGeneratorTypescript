@@ -7,12 +7,6 @@ export class City {
     public height: number;
     public width: number;
 
-    private _miscAdded: boolean = false;
-
-    get done(): boolean {
-        return this._miscAdded;
-    }
-
     get streetCount(): number {
         return this.squares.filter(s => s.type === SquareTypes.STREET).length;
     }
@@ -49,12 +43,6 @@ export class City {
             for (const square of this.squares) {
                 square.populate();
             }
-        } else if (!this._miscAdded) {
-            for (const square of this.squares) {
-                square.populate(true);
-            }
-
-            this._miscAdded = true;
         }
     }
 

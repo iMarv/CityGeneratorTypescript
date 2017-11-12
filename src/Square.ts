@@ -11,7 +11,6 @@ export class Square {
 
     private _type: SquareTypes = SquareTypes.EMPTY;
     private _parent: City;
-    private _prettyPrint: string;
 
     get type(): SquareTypes {
         return this._type;
@@ -40,8 +39,8 @@ export class Square {
         this._parent = parent;
     }
 
-    populate(misc: boolean = false): void {
-        if (!misc && this.type === SquareTypes.STREET) {
+    populate(): void {
+        if (this.type === SquareTypes.STREET) {
             const intersectionChance: number = this._randomNumber(
                 config.square.chance.intersection *
                     (config.square.densityBase.intersection +
@@ -63,38 +62,6 @@ export class Square {
             } else if (intersectionChance === RANDOM_TARGET) {
                 this._populateStreet();
             }
-        } else if (misc && this.type == SquareTypes.EMPTY) {
-            const surroundingsEmpty: number = this._parent
-                .getSurroundingSquares(this, 1)
-                .filter(s => (s ? !(s.x === this.x && s.y === this.y) : true))
-                .filter(
-                    s =>
-                        s
-                            ? s.type === SquareTypes.EMPTY ||
-                              s.type === SquareTypes.PARK
-                            : true
-                ).length;
-
-            if (surroundingsEmpty === 8) {
-                this.type = SquareTypes.PARK;
-            } else {
-                this._prettyPrint = ' ';
-            }
-        } else if (misc && this.type === SquareTypes.STREET) {
-            let status: number = 0;
-
-            for (let direction of Directions) {
-                const square: Square = this._parent.findSquareDirection(
-                    direction,
-                    this
-                );
-
-                if (square && square.type === SquareTypes.STREET) {
-                    status += getDirectionNumber(direction);
-                }
-            }
-
-            this._prettyPrint = mappedStreets[status - 1];
         }
     }
 
@@ -106,8 +73,40 @@ export class Square {
     }
 
     toString(): string {
-        // return `(${this.x}|${this.y})`;
-        return this._prettyPrint || this.type;
+        switch (this.type) {
+            case SquareTypes.STREET: {
+                let status: number = 0;
+                for (let direction of Directions) {
+                    const square: Square = this._parent.findSquareDirection(
+                        direction,
+                        this
+                    );
+
+                    if (square && square.type === SquareTypes.STREET) {
+                        status += getDirectionNumber(direction);
+                    }
+                }
+
+                return mappedStreets[status - 1];
+            }
+            case SquareTypes.EMPTY: {
+                const surroundingsEmpty: number = this._parent
+                    .getSurroundingSquares(this, 1)
+                    .filter(
+                        s => (s ? !(s.x === this.x && s.y === this.y) : true)
+                    )
+                    .filter(s => (s ? s.type === SquareTypes.EMPTY : true))
+                    .length;
+
+                if (surroundingsEmpty === 8) {
+                    return SquareTypes.PARK;
+                } else {
+                    return SquareTypes.EMPTY;
+                }
+            }
+            default:
+                return SquareTypes.EMPTY;
+        }
     }
 
     private _streetConnections(): number {
