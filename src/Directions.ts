@@ -1,3 +1,9 @@
+/**
+ * Possible directions
+ *
+ * @export
+ * @enum {number}
+ */
 export enum Direction {
     NORTH,
     EAST,
@@ -12,6 +18,13 @@ export const Directions: Direction[] = [
     Direction.WEST,
 ];
 
+/**
+ * Returns number a given direction maps into
+ *
+ * @export
+ * @param {Direction} direction Direction to get the number from
+ * @returns {number}
+ */
 export function getDirectionNumber(direction: Direction): number {
     switch (direction) {
         case Direction.NORTH:
