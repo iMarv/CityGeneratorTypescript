@@ -71,18 +71,22 @@ export class City {
     }
 
     /**
-     * Prints the current state of the city to the console
+     * Returns a representation of the city as a string array
      *
+     * @returns {string[]}
      * @memberof City
      */
-    public print(): void {
+    public toStringArray(): string[] {
+        const lines: string[] = [];
         for (let y = 0; y < this.height; y++) {
-            console.log(
+            lines.push(
                 this._findRow(y)
                     .map(square => square.toString())
                     .join('')
             );
         }
+
+        return lines;
     }
 
     /**

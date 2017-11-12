@@ -12,8 +12,9 @@ class Game {
         setInterval(() => {
             if (!this.city.maxStreetsReached) {
                 this.city.tick();
+                const lines: string[] = this.city.toStringArray();
                 this._clearConsole();
-                this.city.print();
+                lines.forEach(l => console.log(l));
                 console.log('Street count: ' + this.city.streetCount);
                 console.log('Streets done: ' + this.city.maxStreetsReached);
             }
@@ -24,7 +25,7 @@ class Game {
         while (!this.city.maxStreetsReached) {
             this.city.tick();
         }
-        this.city.print();
+        this.city.toStringArray().forEach(l => console.log(l));
     }
 
     private _clearConsole(): void {
