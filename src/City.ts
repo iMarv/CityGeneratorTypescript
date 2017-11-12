@@ -58,9 +58,9 @@ export class City {
     }
 
     public print(): void {
-        for (let x = 0; x < this.width; x++) {
+        for (let y = 0; y < this.height; y++) {
             console.log(
-                this._findRow(x)
+                this._findRow(y)
                     .map(square => square.toString())
                     .join(' ')
             );
@@ -99,7 +99,7 @@ export class City {
         return surroundingSquares;
     }
 
-    private _findRow(x: number): Square[] {
-        return this.squares.filter(square => square.x === x);
+    private _findRow(y: number): Square[] {
+        return this.squares.filter(square => square.y === y);
     }
 }
