@@ -1,3 +1,5 @@
+import { mappedStreets } from './StreetMapping';
+import { Directions, getDirectionNumber } from './Directions';
 import { config } from './config';
 import { City } from './City';
 
@@ -9,6 +11,7 @@ export class Square {
 
     private _type: SquareTypes = SquareTypes.EMPTY;
     private _parent: City;
+    private _prettyPrint: string;
 
     get type(): SquareTypes {
         return this._type;
@@ -74,7 +77,24 @@ export class Square {
 
             if (surroundingsEmpty === 8) {
                 this.type = SquareTypes.PARK;
+            } else {
+                this._prettyPrint = ' ';
             }
+        } else if (misc && this.type === SquareTypes.STREET) {
+            let status: number = 0;
+
+            for (let direction of Directions) {
+                const square: Square = this._parent.findSquareDirection(
+                    direction,
+                    this
+                );
+
+                if (square && square.type === SquareTypes.STREET) {
+                    status += getDirectionNumber(direction);
+                }
+            }
+
+            this._prettyPrint = mappedStreets[status - 1];
         }
     }
 
@@ -86,7 +106,8 @@ export class Square {
     }
 
     toString(): string {
-        return this.type;
+        // return `(${this.x}|${this.y})`;
+        return this._prettyPrint || this.type;
     }
 
     private _streetConnections(): number {

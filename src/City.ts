@@ -1,3 +1,4 @@
+import { Direction } from './Directions';
 import { config } from './config';
 import { Square, SquareTypes } from './Square';
 
@@ -62,7 +63,7 @@ export class City {
             console.log(
                 this._findRow(y)
                     .map(square => square.toString())
-                    .join(' ')
+                    .join('')
             );
         }
     }
@@ -71,6 +72,20 @@ export class City {
         return this.squares.filter(
             square => square.x === x && square.y === y
         )[0];
+    }
+
+    public findSquareDirection(direction: Direction, from: Square) {
+        switch (direction) {
+            default:
+            case Direction.NORTH:
+                return this.findSquare(from.x, from.y - 1);
+            case Direction.SOUTH:
+                return this.findSquare(from.x, from.y + 1);
+            case Direction.WEST:
+                return this.findSquare(from.x - 1, from.y);
+            case Direction.EAST:
+                return this.findSquare(from.x + 1, from.y);
+        }
     }
 
     public getDensity(
