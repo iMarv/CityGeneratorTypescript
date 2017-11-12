@@ -1,14 +1,14 @@
 export const config = {
     city: {
-        width: 30,
-        height: 15,
-        streetCoverage: 1 / 3,
-        densityRadius: 2,
+        width: 60,
+        height: 30,
+        streetCoverage: 1 / 4,
+        densityRadius: 0,
     },
     square: {
         chance: {
-            single: 10,
-            intersection: 30,
+            single: 1,
+            intersection: 3,
         },
         densityBase: {
             single: 1,
@@ -17,6 +17,6 @@ export const config = {
     },
     general: {
         buildLive: true,
-        tickDuration: 50,
+        tickDuration: 1,
     },
 };
