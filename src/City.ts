@@ -1,6 +1,6 @@
 import { Direction } from './Directions';
 import { config } from './config';
-import { Square, SquareTypes } from './Square';
+import { Square } from './Square';
 
 export class City {
     public squares: Square[] = [];
@@ -8,7 +8,7 @@ export class City {
     public width: number;
 
     get streetCount(): number {
-        return this.squares.filter(s => s.type === SquareTypes.STREET).length;
+        return this.squares.filter(s => s.isStreet).length;
     }
 
     get maxStreetsReached(): boolean {
@@ -34,8 +34,7 @@ export class City {
         this.findSquare(
             Math.floor(Math.random() * this.width),
             Math.floor(Math.random() * this.height)
-        ).type =
-            SquareTypes.STREET;
+        ).isStreet = true;
     }
 
     public tick(): void {
@@ -86,7 +85,7 @@ export class City {
         );
 
         const streetCount: number = surroundingSquares.filter(
-            s => (s ? s.type === SquareTypes.STREET : false)
+            s => (s ? s.isStreet : false)
         ).length;
 
         return streetCount / surroundingSquares.length;
