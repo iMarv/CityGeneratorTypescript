@@ -125,6 +125,6 @@ export class Square {
 }
 
 export enum SquareTypes {
-    EMPTY = ' ',
+    EMPTY = 'o',
     PARK = '.',
 }

@@ -1,7 +1,7 @@
 export const config = {
     city: {
         width: 30,
-        height: 20,
+        height: 15,
         streetCoverage: 1 / 3,
         densityRadius: 2,
     },
@@ -17,5 +17,6 @@ export const config = {
     },
     general: {
         buildLive: true,
+        tickDuration: 50,
     },
 };
