@@ -5,6 +5,7 @@
         "module": "commonjs",
         "sourceMap": true /* Generates corresponding '.map' file. */,
         "declaration": true,
+        "skipLibCheck": true,
         "outDir": "./dist" /* Redirect output structure to the directory. */,
         "rootDir": "./src",
         "strict": true /* Enable all strict type-checking options. */,
@@ -17,5 +18,5 @@
         "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
         "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */
     },
-    "exclude": ["*.test.ts"]
+    "exclude": ["*.test.ts", "dist"]
 }
