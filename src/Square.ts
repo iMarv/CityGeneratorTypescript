@@ -189,6 +189,6 @@ export class Square {
  * @enum {number}
  */
 export enum SquareTypes {
-    EMPTY = '.',
-    PARK = '▒',
+    EMPTY = '▫',
+    PARK = '░',
 }
